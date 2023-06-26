@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -91,54 +92,42 @@ public class ClientHandler extends Thread {
     }
 
     private String getWinesByType(String type) {
-        StringBuilder responseBuilder = new StringBuilder();
+        List<Wine> filteredWines = new ArrayList<>();
 
-        for (int i = 0; i < wines.size(); i++) {
-            Wine wine = wines.get(i);
+        for (Wine wine : wines) {
             if (wine.getType().equalsIgnoreCase(type)) {
-                String json = gson.toJson(wine);
-                responseBuilder.append(json);
-                if (i < wines.size() - 1) {
-                    responseBuilder.append(",");
-                }
-                responseBuilder.append("\n");
+                filteredWines.add(wine);
             }
         }
 
-        return responseBuilder.toString();
+        WineWrapper wrapper = new WineWrapper(filteredWines);
+        String json = gson.toJson(wrapper);
+        return json;
     }
 
     private String getWinesSortedByName() {
-        wines.sort((wine1, wine2) -> wine1.getName().compareToIgnoreCase(wine2.getName()));
-        StringBuilder responseBuilder = new StringBuilder();
-
-        for (int i = 0; i < wines.size(); i++) {
-            Wine wine = wines.get(i);
-            String json = gson.toJson(wine);
-            responseBuilder.append(json);
-            if (i < wines.size() - 1) {
-                responseBuilder.append(",");
-            }
-            responseBuilder.append("\n");
-        }
-
-        return responseBuilder.toString();
+        wines.sort(Comparator.comparing(Wine::getName));
+        WineWrapper wrapper = new WineWrapper(wines);
+        String json = gson.toJson(wrapper);
+        return json;
     }
 
     private String getWinesSortedByPrice() {
         wines.sort(Comparator.comparingDouble(Wine::getPrice));
-        StringBuilder responseBuilder = new StringBuilder();
+        WineWrapper wrapper = new WineWrapper(wines);
+        String json = gson.toJson(wrapper);
+        return json;
+    }
 
-        for (int i = 0; i < wines.size(); i++) {
-            Wine wine = wines.get(i);
-            String json = gson.toJson(wine);
-            responseBuilder.append(json);
-            if (i < wines.size() - 1) {
-                responseBuilder.append(",");
-            }
-            responseBuilder.append("\n");
+    private static class WineWrapper {
+        private final List<Wine> wines;
+
+        public WineWrapper(List<Wine> wines) {
+            this.wines = wines;
         }
 
-        return responseBuilder.toString();
+        public List<Wine> getWines() {
+            return wines;
+        }
     }
 }
