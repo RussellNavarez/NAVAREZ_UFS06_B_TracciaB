@@ -93,10 +93,15 @@ public class ClientHandler extends Thread {
     private String getWinesByType(String type) {
         StringBuilder responseBuilder = new StringBuilder();
 
-        for (Wine wine : wines) {
+        for (int i = 0; i < wines.size(); i++) {
+            Wine wine = wines.get(i);
             if (wine.getType().equalsIgnoreCase(type)) {
                 String json = gson.toJson(wine);
-                responseBuilder.append(json).append("\n");
+                responseBuilder.append(json);
+                if (i < wines.size() - 1) {
+                    responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+                }
+                responseBuilder.append("\n");
             }
         }
 
@@ -107,9 +112,14 @@ public class ClientHandler extends Thread {
         wines.sort((wine1, wine2) -> wine1.getName().compareToIgnoreCase(wine2.getName()));
         StringBuilder responseBuilder = new StringBuilder();
 
-        for (Wine wine : wines) {
+        for (int i = 0; i < wines.size(); i++) {
+            Wine wine = wines.get(i);
             String json = gson.toJson(wine);
-            responseBuilder.append(json).append("\n");
+            responseBuilder.append(json);
+            if (i < wines.size() - 1) {
+                responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+            }
+            responseBuilder.append("\n");
         }
 
         return responseBuilder.toString();
@@ -119,9 +129,14 @@ public class ClientHandler extends Thread {
         wines.sort(Comparator.comparingDouble(Wine::getPrice));
         StringBuilder responseBuilder = new StringBuilder();
 
-        for (Wine wine : wines) {
+        for (int i = 0; i < wines.size(); i++) {
+            Wine wine = wines.get(i);
             String json = gson.toJson(wine);
-            responseBuilder.append(json).append("\n");
+            responseBuilder.append(json);
+            if (i < wines.size() - 1) {
+                responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+            }
+            responseBuilder.append("\n");
         }
 
         return responseBuilder.toString();
