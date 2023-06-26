@@ -16,6 +16,7 @@ public class ClientHandler extends Thread {
     private final Socket socket;
     private final List<Wine> wines;
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     public ClientHandler(Socket socket, List<Wine> wines) {
         this.socket = socket;
         this.wines = wines;
@@ -125,5 +126,4 @@ public class ClientHandler extends Thread {
 
         return responseBuilder.toString();
     }
-
 }
