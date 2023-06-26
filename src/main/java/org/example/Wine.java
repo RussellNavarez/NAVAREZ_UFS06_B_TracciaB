@@ -1,8 +1,8 @@
 package org.example;
 
 public class Wine {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private double price;
     private String type;
 
