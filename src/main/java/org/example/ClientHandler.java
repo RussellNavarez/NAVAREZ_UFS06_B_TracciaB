@@ -15,7 +15,7 @@ import java.util.List;
 public class ClientHandler extends Thread {
     private final Socket socket;
     private final List<Wine> wines;
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().create();
 
     public ClientHandler(Socket socket, List<Wine> wines) {
         this.socket = socket;
@@ -84,7 +84,7 @@ public class ClientHandler extends Thread {
 
     private void stopServer() {
         try {
-            socket.close(); // Chiude la connessione del socket nel ClientHandler
+            socket.close(); // Chiude la connessione del socket
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -99,7 +99,7 @@ public class ClientHandler extends Thread {
                 String json = gson.toJson(wine);
                 responseBuilder.append(json);
                 if (i < wines.size() - 1) {
-                    responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+                    responseBuilder.append(",");
                 }
                 responseBuilder.append("\n");
             }
@@ -117,7 +117,7 @@ public class ClientHandler extends Thread {
             String json = gson.toJson(wine);
             responseBuilder.append(json);
             if (i < wines.size() - 1) {
-                responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+                responseBuilder.append(",");
             }
             responseBuilder.append("\n");
         }
@@ -134,7 +134,7 @@ public class ClientHandler extends Thread {
             String json = gson.toJson(wine);
             responseBuilder.append(json);
             if (i < wines.size() - 1) {
-                responseBuilder.append(","); // Aggiungi la virgola solo se non è l'ultimo elemento
+                responseBuilder.append(",");
             }
             responseBuilder.append("\n");
         }
