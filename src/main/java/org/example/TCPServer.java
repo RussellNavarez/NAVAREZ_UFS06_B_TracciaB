@@ -8,7 +8,6 @@ import java.util.List;
 
 public class TCPServer {
     public static void main(String[] args) {
-        Inventory.buildWineList();
         List<Wine> wines = Inventory.getWines();
 
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
