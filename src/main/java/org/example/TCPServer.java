@@ -7,13 +7,19 @@ import java.net.SocketException;
 import java.util.List;
 
 public class TCPServer {
+    private static final int PORT = 5000;
+    private static ServerSocket serverSocket;
+    private static boolean isRunning;
+
     public static void main(String[] args) {
         List<Wine> wines = Inventory.getWines();
+        isRunning = true;
 
-        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+        try {
+            serverSocket = new ServerSocket(PORT);
             System.out.println("Server avviato. In attesa di connessioni...");
 
-            while (true) {
+            while (isRunning) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Connessione stabilita con il client: " + socket);
                 System.out.println("Comandi:");
@@ -31,6 +37,14 @@ public class TCPServer {
             System.out.println("Connessione chiusa dal client.");
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
