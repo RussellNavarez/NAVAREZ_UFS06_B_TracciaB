@@ -1,6 +1,6 @@
 # NAVAREZ_UFS06_B_TracciaB
 
-Tracca B
+Traccia B
 
 How to connect:
 ncat 172.16.151.0 5000
